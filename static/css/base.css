@@ -1,0 +1,60 @@
+html, body, div, span, p, a, img, tt, dl, dt, dd, ol, ul, li, fieldset, form, table, tbody, tfoot, thead, tr, th, td, section, nav, footer, header, button {margin: 0; padding:0;border: 0;outline: 0; font-weight: inherit;font-style: inherit;}
+*{-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+body{color:black;background: #F5F5F5;margin: 0;font-family:"Source Sans Pro", sans-serif,PingFang-SC-Regular, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun;-webkit-font-smoothing: antialiased;font-size: 12px/1.5}
+input, textarea, button, a{ -webkit-tap-highlight-color:rgba(0,0,0,0); } 
+ul{list-style:none;}
+
+a{text-decoration: none;cursor: pointer;}
+input,textarea,select,button,label {
+  -webkit-font-smoothing: antialiased;
+}
+/* 清除浮动 */
+.clearfix:before,.clearfix:after{content:"";display:table}
+.clearfix:after{clear:both;}
+.clearfix{zoom:1}
+
+body{
+  margin: 0 10%;
+  background: #fff;
+  min-height: 500px;
+}
+a{
+  color: inherit;
+}
+.top_nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+.logo{
+  font-family: fantasy;
+  font-size: 26px;
+}
+.top_nav_left{
+  color: #b2b2b2;
+  font-size: 14px;
+}
+.top_nav_left a{
+  padding: 0 5px;
+  color: inherit;
+}
+.nav{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right:15px;
+  background: #777474;
+  color: #fff;
+  font-size: 15px;
+}
+.nav a{
+  padding: 8px 10px;
+  display: inline-block;
+}
+.nav a:hover{
+  opacity: 0.8;
+}
+.active_nav{
+  background: #DDBBAC;
+}

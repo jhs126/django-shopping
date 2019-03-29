@@ -1,0 +1,2 @@
+{{ object.gtitle }}
+{{ object.gsynopsis }}

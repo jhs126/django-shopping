@@ -1,0 +1,53 @@
+{%extends 'base.html'%}
+{%block link%}
+<link rel="stylesheet" href="/static/css/list.css">
+<!-- {% load staticfiles %} -->
+{%endblock link%}
+
+<body>
+    {%block body%}
+    
+    <div class="bread_crumb">
+        <a href="{% url 'goodslist' 0 1 1 %}">全部商品</a><span>></span>
+        <a>搜索</a>
+    </div>
+    <ul class="goods_list">
+        {%for goods in page%}
+        <li class="goods_bd list_bd">
+            <div class="goods_boder">
+                <a href="/goods/{{goods.object.id}}"><img src="/static/{{goods.object.gpic}}"></a>
+                <a href="/goods/{{goods.object.id}}"><p>{{goods.object.gtitle}}</p></a>
+                <div class="goods_info">
+                    <div class="goods_price"><span><i>￥</i>{{goods.object.gdiscount_price}}</span><span>￥{{goods.object.goriginal_price}}</span></div>
+                    <a href="">购买</a>
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        <div>没找到相关商品</div>
+        {%endfor%}
+    </ul>
+
+    <div class="pagination">
+            {% if page.has_previous %}
+            <a href="/search?q={{ query }}&amp;page={{ page.previous_page_number }}">上一页</a>
+        {%else%}
+            <a href="#">上一页</a>
+        {% endif %}
+        {% for idx in paginator.page_range%}
+            {% if idx == page.number %}
+            <a href="#" class="actived_page">{{idx}}</a>
+            {% else %}
+            <a href="/search?q={{ query }}&amp;page={{ page.next_page_number }}">{{idx}}</a>
+            {% endif %}
+        {% endfor %}
+        {%if page.has_next%}
+            <a href="/search?q={{ query }}&amp;page={{ page.next_page_number }}">下一页</a>
+        {%else%}
+            <a href="#">下一页</a>
+        {%endif%}
+        </div>
+
+
+{%endblock body%}
+</body>

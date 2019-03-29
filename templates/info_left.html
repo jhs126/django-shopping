@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{%block link%}
+<link rel="stylesheet" href="/static/css/info.css">
+<!-- {% load staticfiles %} -->
+{%block minlink%}{%endblock minlink%}
+{%endblock link%}
+
+<body>
+    {%block body%}
+    
+	<div class="main_con">
+            <div class="left_menu">
+                    <h4>用户中心</h4>
+                <ul>
+                    <li><img src="/static/goods/香薰.jpg"></li>
+                    <li  class="{%if act_nav == 1%}actived_info{%endif%}"><a href="{% url 'info' %}">个人信息</a></li>
+                    <li class="{%if act_nav == 2%}actived_info{%endif%}"><a href="{% url 'order' 1 %}" >全部订单</a></li>
+                    <li class="{%if act_nav == 3%}actived_info{%endif%}"><a href="{% url 'footmark'  %}" >浏览记录</a></li>
+                    <li class="{%if act_nav == 4%}actived_info{%endif%}"><a href="{% url 'address'%}">收货地址</a></li>
+                    <li ><a href="{% url 'cart'  %}" >我的购物车</a></li>
+                </ul>
+            </div>
+            <div class="right_content ">
+                {%block bodyleft%}{%endblock bodyleft%}
+            </div>
+	</div>
+    {%endblock body%}
+    {%block js%}{%endblock js%}
+</body>

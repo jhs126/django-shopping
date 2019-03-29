@@ -1,0 +1,71 @@
+{%extends 'base.html'%}
+{%block link%}
+<link rel="stylesheet" href="/static/css/swiper.min.css">
+<link rel="stylesheet" href="/static/css/list.css">
+<link rel="stylesheet" href="/static/css/home.css">
+<!-- {% load staticfiles %} -->
+{%endblock link%}
+<body>
+    {%block body%}
+<div>
+</div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide blue-slide">slider1</div>
+            <div class="swiper-slide red-slide">slider2</div>
+            <div class="swiper-slide orange-slide">slider3</div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    {% for item in goods_type%}
+    <div>
+        <div class="type_title">
+            <span class="types"></span>
+            <a href="">更多<i>></i></a>
+        </div>
+
+        <ul class="goods_list">
+            {% for goods in item%}
+            <li class="goods_bd home_bd">
+                <div class="goods_boder">
+                    <a href="{% url 'goodsdetail' goods.id %}"><img src="/static/{{goods.gpic}}"></a>
+                    <a href="{% url 'goodsdetail' goods.id %}"><p>{{goods.gtitle}}</p></a>
+                    <div class="goods_info">
+                        <div class="goods_price"><span><i>￥</i>{{goods.gdiscount_price}}</span><span>￥{{goods.goriginal_price}}</span></div>
+                        <a href="{% url 'goodsdetail' goods.id %}">购买</a>
+                    </div>
+                </div>
+            </li>
+            {%endfor%}
+        </ul>
+     
+    </div>
+   {%endfor%}
+    {%endblock body%}
+    {%block js%}
+    <script src="/static/js/swiper-3.4.2.jquery.min.js"></script>
+    <script>
+        var mySwiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: 3000,
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
+       $(function(){
+        goodsType()
+       })
+       function goodsType(){  //类型
+           var list = {{goods_list|safe }};
+           $('.types').each(function(indx,row){
+                list.forEach(function(item, index) {
+                    if(indx==index){
+                        row.innerText=item.fields.ttitle
+                        row.nextElementSibling.pathname='goods/list/'+item.pk+'/1/1/'
+                    }
+                })
+           }) 
+       }
+    </script>
+
+    {%endblock js%}
+</body>

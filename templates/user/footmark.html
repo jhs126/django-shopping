@@ -1,0 +1,21 @@
+{%extends 'info_left.html'%}
+{%block minlink%}
+<link rel="stylesheet" href="/static/css/list.css">
+{%endblock minlink%}
+{%block bodyleft%}
+<h4 >我的足迹</h4>
+<ul class="goods_list mark">
+    {%for goods in goods%}
+    <li class="goods_bd">
+        <div class="goods_boder">
+            <a href="{% url 'goodsdetail' goods.id %}"><img src="/static/{{goods.gpic}}"></a>
+            <a href="{% url 'goodsdetail' goods.id %}" class="mark_title"><p>{{goods.gtitle}}</p></a>
+            <div class="goods_info">
+                <div class="goods_price"><span><i>￥</i>{{goods.gdiscount_price}}</span><span>￥{{goods.goriginal_price}}</span></div>
+            </div>
+        </div>
+    </li>
+    {%endfor%}
+</ul>
+
+{%endblock bodyleft%}

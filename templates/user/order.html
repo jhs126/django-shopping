@@ -1,0 +1,58 @@
+{%extends 'info_left.html'%}
+{%block minlink%}
+<link rel="stylesheet" href="/static/css/list.css">
+{%endblock minlink%}
+
+{%block bodyleft%}
+<div class="order_list">
+    <h4 >全部订单</h4>
+    {%for order in page%}
+    <ul class="order_list_th">
+        <li >{{order.odate}}</li>
+        <li >订单号：{{order.onumber}}</li>
+        <li class=" stress">{%if order.oIsPay %}已支付{%else%}未支付{%endif%}</li>		
+    </ul>
+
+    <table class="order_list_table">
+        <tbody>
+            <tr>
+                <td width="55%">
+                {%for goods in  order.orderdetail_set.all%}
+                    <ul class="order_goods_list">					
+                        <li class="col_img"><a href="{% url 'goodsdetail' goods.ogoods.id %}"><img src="/static/{{goods.ogoods.gpic}}"></a></li>
+                        <li class="col_title"><a href="{% url 'goodsdetail' goods.ogoods.id %}">{{goods.ogoods.gtitle}}</a></li>	
+                        <li class="col_num">{{goods.ocount}}</li>
+                        <li class="col_pirce">{% widthratio goods.count 1 goods.ogoods.gdiscount_price %}</li>	
+                    </ul>
+                {%endfor%}
+                </td>
+                <td width="15%">{{order.ototal}}元</td>
+                <td width="15%">待付款</td>
+                <td width="15%"><a href="#" class="checked_btn">去付款</a></td>
+            </tr>
+        </tbody>
+    </table>
+    {%endfor%}
+    <div class="pagination">
+            {% if page.has_previous %}
+            <a href="{% url "df_user:order" page.previous_page_number %}" >上一页</a>
+        {%else%}
+            <a href="#">上一页</a>
+        {% endif %}
+        {% for idx in paginator.page_range%}
+            {% if idx == page.number %}
+            <a href="{% url "order" idx %}" class="actived_page">{{idx}}</a>
+            {% else %}
+            <a href="{% url "order" idx %}">{{idx}}</a>
+            {% endif %}
+        {% endfor %}
+        {%if page.has_next%}
+            <a href="{% url "order" page.next_page_number %}">下一页</a>
+        {%else%}
+            <a href="#">下一页</a>
+        {%endif%}
+        </div>
+  
+</div>
+          
+{%endblock bodyleft%} 

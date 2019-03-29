@@ -1,0 +1,174 @@
+{%extends 'base.html'%}
+{%block link%}
+<link rel="stylesheet" href="/static/css/cart.css">
+<!-- {% load staticfiles %} -->
+{%endblock link%}
+
+<body>
+    {%block body%}
+    <div class="cart">
+        <table class="cart_list_table">
+            <tbody>
+                <tr>
+                    <th>全选</th>
+                    <th>商品信息</th>
+                    <th>单价(元)</th>
+                    <th>数量</th>
+                    <th>小计(元)</th>
+                    <th>操作</th>
+                </tr>
+                {%for item in carts%}
+                
+                <tr id='{{item.id}}' class="table_tr">
+                    <td width="5%"><input type="checkbox" class="checked" name="cart_id" >
+                    </td>
+                    <td width="50%">
+                        <div class="cart_goods">
+                            <a href="{% url 'goodsdetail' item.goods.id %}"><img src="/static/{{item.goods.gpic}}"> </a>
+                            <div class="cart_info">
+                                <a href="{% url 'goodsdetail' item.goods.id %}">{{item.goods.gtitle}}</a>
+                                <p>白色,S码</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td width="10%" class="col_price">{{item.goods.gdiscount_price}}</td>
+                    <td width="15%">
+                        <span class="num">
+                            <a class="num_minus">-</a>
+                            <input value="{{item.count}}" type="text" name="num" class="num_input">
+                            <a class="num_add">+</a>
+                        </span>
+                    </td>
+                    <td width="10%"  class="col_total" id="col_total"></td>
+                    <td width="10%" ><span  onclick="deleteCart({{item.id}})" class="cart_del">删除</span></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <div class="total_box">
+            <div>
+                <input type="checkbox" id="check_all">
+                <span>全选</span>
+            </div>
+            <div class="box_right">
+                <span>已选 <b class="cart_num">0</b> 件商品</span>
+                <span>总计：<b class="total_num">00.00</b></span>
+                <p  onclick="goPay()">去结算</p>
+            </div>
+           
+        </div>
+    </div>
+    {%endblock body%}
+    {%block js%}
+    <!-- <script src="/static/js/list.js"></script> -->
+    <script>
+    $(function(){
+        total()
+    })
+    var cart_ids=[]  //获取被选中的购物车id
+    function totalAll(){//计算需要支付的金额
+        var totals = 0
+        var count = 0
+        cart_ids=[]
+        $('.col_total').each(function(index,item){//遍历这个类
+            var state = $(this).prevAll().find(':checkbox').is(':checked')
+            if(state){
+               var total = $(this).text()
+               totals += parseFloat(total) 
+               count++
+               var id = $(this).parent().attr('id')
+               cart_ids.push(id)
+            }
+        })
+        $('.cart_num').text(count) //几件商品
+        $('.total_num').text(totals) //相当于获取最后一个
+    }
+    function total(){//计算小计
+        $('.col_total').each(function(){//遍历这个类
+            count = $(this).prev().find('input').val();//找到这个的前一个里面的input值  数量
+            price = $(this).prev().prev().text();//前前一个的文本值   单价
+            col_total = parseFloat(count)  * parseFloat(price) //小计
+            $(this).text(col_total.toFixed(2)) 
+        })
+    }
+
+    $('#check_all').click(function(){//全选和取消
+        var states = $(this).prop('checked');//选择和取消选择
+        $(':checkbox:not(#check_all)').prop('checked',states);//选择所以的的选框，全选框除外，设置为全选的状态
+        totalAll()
+    })
+
+    $(':checkbox:not(#check_all)').click(function(){//有一个商品未选择 全选失效    
+        if($(this).prop('checked')){
+            if($(':checked').length+1===$(':checkbox').length){//:checked所有被选中的 :checkbox 所有的选项框
+                $('#check_all').prop('checked',true)
+            }
+        }else{
+            $('#check_all').prop('checked',false)
+        }
+        totalAll()
+    })
+   
+    $('.num_add').click(function(){  //商品加
+        txt = $(this).prev()
+        txt.val(parseFloat(txt.val())+1).blur()
+        total()
+        totalAll()
+    })
+    $('.num_minus').click(function(){  //商品减
+        txt = $(this).next()
+        if(txt.val()>1){
+            txt.val(parseFloat(txt.val())-1).blur()
+        }
+        total()
+        totalAll()
+    })
+    $('.num_input').blur(function(){  //直接输入input框
+        count = $(this).val()
+        if(count <= 0){
+            alert('请输入正确的数字')
+            $(this).focus()
+            return;
+        }else if(count>100){
+            alert('库存不足')
+            $(this).focus()
+            return;
+        }else{
+            cart_id = $(this).parents('.table_tr').attr('id')   //修改购买数量
+            $.get('/cart/edit'+cart_id+'_'+count+'/',function(data){
+                if(data.ok==0){
+                    total()
+                    totalAll()
+                }else{
+                    $(this).val(data.ok)
+                }
+            })
+        }
+    })
+    function deleteCart(id){ //删除购物车商品
+        del = confirm('确定要删除吗？');
+        if(del){
+            $.get('/cart/delete'+id+'/',function(data){
+                if(data.ok===1){
+                    $('tr').remove('#'+id)
+                    total()
+                    totalAll()
+                }
+            })
+        }
+    }
+    function goPay(){ //去结算
+    var is_check= $(':checked').length
+        if(is_check==0){
+            alert('请选择购买商品')
+        }else{
+            var price = $('.total_num').text()
+            location.href='/order/pay?cid='+cart_ids+'&price='+price
+        }
+
+
+    }
+    </script>
+    {%endblock js%}
+
+</body>

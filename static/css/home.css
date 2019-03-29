@@ -1,0 +1,59 @@
+.blue-slide {
+    background: #4390EE;
+}
+.red-slide {
+    background: #CA4040;
+}
+.orange-slide {
+    background: #FF8604;
+}
+.swiper-slide {
+    line-height: 300px;
+    color: #fff;
+    font-size: 36px;
+    text-align: center;
+}
+
+
+/*--------------
+    商品列表 
+----------------*/
+
+.goods_bd{
+    width: 25%;
+
+}
+
+.home_bd p{
+    height: 20px;
+    margin: 0 15px 5px;
+    color: #666;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+
+.type_title{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f8f8f8;
+    border: 1px solid #eaeaea;
+    font-size: 14px;
+    color: #999;
+}
+.swiper-container{
+    margin-bottom: 10px;
+}
+
+.type_title i{
+    padding: 2px;
+    font-weight: 700;
+}
+.type_title a:hover{
+    color:#DDBBAC;
+}

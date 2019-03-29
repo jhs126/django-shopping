@@ -1,0 +1,133 @@
+{%extends 'base.html'%}
+{%block link%}
+<link rel="stylesheet" href="/static/css/swiper.min.css">
+<link rel="stylesheet" href="/static/css/detail.css">
+{% load staticfiles %}
+{%endblock link%}
+
+<body>
+    {%block body%}
+    <div class="bread_crumb">
+        <a>化妆品</a><span>></span>
+        <a>商品详情</a>
+    </div>
+    <div class="detail">
+        <img src="/static/{{goods.gpic}}">
+        <div class="detail_right">
+            <div>
+                <p>{{goods.gtitle}}</p>
+                <p>{{goods.gsynopsis}}</p>
+                <div class="line_title title_price"><span>价格</span><span class="detail_price">￥{{goods.gdiscount_price}}</span><sub>￥{{goods.goriginal_price}}</sub></div>
+                <div class="line_title"><span>运费</span><span>{%if goods.gpostage == 0%}包邮{%else%}{{goods.gpostage}}{%endif%}</span></div>
+                <div class="line_title">
+                    <span>数量</span>
+                    <span class="num">
+                        <a class="num_minus disable_num" onclick="minuNum()">-</a>
+                        <input value="1" type="text" name="num" class="num" id="num">
+                        <a class="num_add" onclick="addNum({{goods.ginventory}})">+</a>
+                    </span>
+                </div>
+            </div>
+            <div class="btn">
+                <a href="javascript:void(0);" id="add_cart" onclick="addCart({{goods.id}})">加入购物车</a>
+                <a href="javascript:void(0);" >立即购买</a>
+            </div>
+        </div>
+    </div>
+    <div class="detail_main">
+        <ul class="detail_main_right">
+            <li>人气商品</li>
+            {%for goods in news%}
+            <a href="{% url 'goodsdetail' goods.id %}">
+                <li>
+                    <img src="/static/{{goods.gpic}}">
+                    <p>{{goods.gtitle}}</p>
+                    <div>￥{{goods.gdiscount_price}}</div>
+                </li>
+            </a>
+            
+           {%endfor%}
+        </ul>
+        <div class="detail_main_left">
+            <ul class="detail_tab">
+                <li class="actived_tab">商品详情</li>
+                <li>评论</li>
+            </ul>
+            <div class="tab_content">
+                {{goods.gcontext|safe}}
+            </div>
+        </div>
+    </div>
+    <div class="add_jump"></div>
+    <div id="show_count">1</div>
+    {%endblock body%}
+    {%block js%}
+    <script src="/static/js/swiper-3.4.2.jquery.min.js"></script>
+    <script>
+    function minuNum(){ //减购买数量
+        var num = $("#num");
+        if (num.val() > '1') {
+            num.val(parseInt(num.val()) - 1);
+            isClass('.num_add')
+        } else {
+            $(".num_minus").addClass('disable_num')
+            
+        }
+    }
+    function addNum(count){  //加购买数量
+        var num = $("#num")
+        if(num.val()>=count){
+            $('.num_add').addClass('disable_num')
+        }else{
+            num.val(parseInt(num.val()) + 1);
+            isClass(".num_minus")
+        }
+    }
+
+    function isClass(cname){  //验证是否有这个class 有就删
+        is_class = $(cname).hasClass('disable_num')
+        if(is_class){
+            $(cname).removeClass('disable_num')
+        }
+    }
+        var $add_x = $('#add_cart').offset().top;
+		var $add_y = $('#add_cart').offset().left;
+		var $to_x = $('#show_count').offset().top;
+		var $to_y = $('#show_count').offset().left;
+
+		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+	/* 	$('#add_cart').click(function(){
+            
+            if($('.login_btn').text().indexOf('登录')>=0){
+                alert('请登录后再购买');
+                location.href='/user/login/';
+                return false;
+            }
+			$(".add_jump").stop().animate({
+				'left': $to_y+7,
+				'top': $to_x+7},
+				"fast", function() {
+					$(".add_jump").fadeOut('fast',function(){
+						$('#show_count').html(2);
+					});
+            });
+        
+            count = parseInt($('.num').val());
+            $.get('/cart/add{{g.id}}_'+count+'/',function(data){
+                $('#show_count').text(data.count);
+            });
+		}) */
+       
+       function addCart(gid){ //加入购物车
+        count = parseInt($('#num').val());
+        $.get('/cart/add/'+gid+'/'+count+'/',function(data){
+               if(data.ok==1){
+                   alert('加入成功')
+               }else{
+                   alert('失败')
+               }
+            });
+       }
+    </script>
+    {%endblock js%}
+</body>

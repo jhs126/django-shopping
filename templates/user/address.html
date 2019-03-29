@@ -1,0 +1,176 @@
+{%extends 'info_left.html'%}
+{%block bodyleft%}
+
+<h4>编辑地址</h4>
+<div class="site_con">
+<form action="/user/addresshandle{{address_id}}/" method="POST">
+    {% csrf_token %}
+    <div class="form_group">
+        <label>收件人：</label>
+        <input type="text" name="uname" id="uname" placeholder="请使用真实姓名">
+        <span class="error_tip">提示</span>
+    </div>
+    <div class="form_group">
+            <label>手机：</label>
+            <input type="text" name="utel" id="utel" placeholder="请填写11位数字的电话号码">
+            <span class="error_tip">提示</span>
+        </div>
+    <div class="form_group">
+        <label>详细地址：</label>
+        <textarea class="site_area" name="uaddress" id="uaddress" placeholder="请填写详细地址，如小区号、门牌号"></textarea>
+        <span class="error_tip">提示</span>
+    </div>
+    <div class="form_group">
+        <label>邮编：</label>
+        <input type="text" name="uzipcode" id="uzipcode" placeholder="选填">
+    </div>
+    <div class="form_btn">
+        <input type="submit" name="" value="提交"  class="info_submit">
+        <input type="button" name="" value="清空"  id="clear_btn">
+    </div>
+    
+</form>
+</div>
+<table border="1" class="address_table">
+    <tr>
+        <th>收货人</th>
+        <th>收货地址</th>
+        <th>联系电话</th>
+        <th>操作</th>
+        <th></th>
+    </tr>
+    {%for item in addrss_list%}
+    <tr id="{{item.id}}">
+        <td>{{item.ufullname}}</td>
+        <td>{{item.uaddress}}</td>
+        <td>{{item.utel}}</td>
+        <td><span class="edit_td" onclick="edit(&quot;{{item.id}},{{item.ufullname}},{{item.utel}},{{item.uaddress}},{{item.uzipcode}}&quot;)">修改</span><span class="delete_td" onclick="deleteAddress({{item.id}})">删除</span></td>
+        
+        <td class="set_default {{item.id}} {%if item.is_default == 1%}active_add{%endif%}" onclick="setDefault(event,&quot;{{forloop.counter}},{{item.id}},{{item.is_default}}&quot;)">{%if item.is_default == 1%}默认地址{%else%}设为默认地址{%endif%}</td>              
+        
+    </tr>
+    {%endfor%}
+    </table>
+    {%endblock bodyleft%}
+{%block js%}
+<script>
+$(function(){
+var name_error=false;
+var utel_error=false;
+var address_error=false;
+    $('#uname').blur(function() {
+        addressName();
+    });
+    $('#utel').blur(function(){
+        addressTel();
+    })
+    $('#uaddress').blur(function(){
+        addressDetail();
+    })
+});
+
+function edit(item){
+    var arr = item.split(',')
+   $('#uname').val(arr[1])
+   $('#utel').val(arr[2])
+   $('#uaddress').val(arr[3])
+   $('#uzipcode').val(arr[4])
+   $('form').attr('action','/user/addresshandle'+arr[0]+'/')
+}
+
+function deleteAddress(id){
+    del = confirm('确定要删除吗？');
+    if(del){
+        $.get('/user/addressdel'+id+'/',function(data){
+            if(data.ok===1){
+                $('tr').remove('#'+id)
+            }else{
+                alert('删除失败')
+            }
+        })
+    }
+}
+
+function setDefault(event,arr){
+    var arr = arr.split(',')
+    var indx = parseInt(arr[0])-1
+    var id = arr[1]
+    var state =event.currentTarget.innerText
+
+
+   
+    //遍历这个类
+    if(state=='设为默认地址'){
+       $('.set_default').each(function(index,item){
+            if(index==indx){
+                item.innerText='默认地址'
+            }else{
+                item.innerText='设为默认地址'
+            }
+       
+        })
+        
+      
+    }
+  $.get('/user/addressdefault'+id+'/',function(data){
+                if(data.ok==1){
+                }else{   
+                    alert(3)
+                }
+            })
+
+}
+
+/*-----------------地址验证------------- */
+function addressName(){  //用户验证
+    var name_val =  $('#uname').val().length
+    if(name_val==0||name_val<2||name_val>6){
+        $('#uname').next().html('*请填写2-6位的收件人').show();
+        name_error = false;
+    }else{
+        $('#uname').next().hide();
+        name_error = true;
+    }
+}
+function addressTel(){  //电话号码验证
+    var tel =  $('#utel').val();
+    var reg = /^1[3-9]\d{9}$/
+    if(tel.length===0||!reg.test(tel)){
+        $('#utel').next().html('*请填写正确的11位手机号码').show();
+        utel_error = false;
+    }else{
+        $('#utel').next().hide();
+        utel_error = true;
+    }
+}
+function addressDetail(){  //地址验证
+    var name_val =  $('#uaddress').val();
+    if(name_val.length===0){
+        $('#uaddress').next().html('*请填写详细收货地址').show();
+        address_error = false;
+    }else{
+        $('#uaddress').next().hide();
+        address_error = true;
+    }
+}
+$('form').submit(function(e){//如果上面验证不通过 不能提交
+    addressName()
+    addressTel()
+    addressDetail()
+    if(name_error&& utel_error&& address_error&& error_email)
+    {
+        return true;
+    }else{
+        return false;
+    }
+})
+
+$('#clear_btn').click(function(){
+    $('#uname').val('')
+    $('#utel').val('')
+    $('#uaddress').val('')
+    $('#uzipcode').val('')
+})
+
+</script>
+{%endblock js%}

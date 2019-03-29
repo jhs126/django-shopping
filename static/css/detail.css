@@ -1,0 +1,193 @@
+.bread_crumb{
+    padding: 10px 0;
+    font-size: 14px;
+    color: #999;
+}
+.bread_crumb span{
+    padding: 0 5px;
+}
+.bread_crumb a{
+    padding-right: 5px;
+}
+.bread_crumb a:hover{
+    color:#DDBBAC;
+}
+.detail{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #eee;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.detail img{
+    width: 400px;
+    height: 400px;
+}
+.detail_right{
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.detail_right p:first-child{
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+    color: #333;
+}
+.detail_right p:last-of-type{
+    margin-bottom: 10px;
+    color: #666;
+    font-family: 'Microsoft Yahei';
+    font-size: 12px;
+    
+}
+.line_title{
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 12px;
+}
+.line_title span:first-child{
+    display: inline-block;
+    width: 75px;
+}
+.title_price{
+    margin-bottom: 10px;
+    padding: 10px 0;
+    background-color: #f9f9f9;
+}
+/*-----------
+    加减条
+-------------*/
+.num{
+    display: inline-block;
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+}
+.num input{
+    width: 38px;
+    padding: 4px 5px;
+    height: 14px;
+    font-size: 14px;
+    color: #333;
+    border: none;
+    outline: none;
+    box-sizing: content-box;
+}
+.num a{
+    display: inline-block;
+    width: 25px;
+    height: 22px;
+    line-height: 1.7;
+    color: #333;
+
+}
+.num_add{
+    border-left: 1px solid #ccc;
+}
+.num_minus{
+    border-right: 1px solid #ccc;
+}
+
+.disable_num{
+    color: #ccc;
+    background-color: #f3f3f3;
+    cursor: default;
+}
+
+
+.detail_price{
+    font-size: 26px;
+    color: #e31436;
+    font-weight: bold;
+    vertical-align: middle;
+    letter-spacing: -2px;
+} 
+.line_title sub{
+    margin-left: 5px;
+    text-decoration: line-through;
+}
+.btn{
+    margin-bottom: 20px;
+}
+.btn a{
+display: inline-block;
+width: 178px;
+height: 38px;
+font-size: 14px;
+line-height: 38px;
+text-align: center;
+}
+.btn a:first-child{
+    color: #DDBBAC;
+    border: 1px solid #DDBBAC;
+}
+.btn a:last-child{
+    margin-left: 10px;
+    color: #fff;
+    background: #DDBBAC;
+}
+
+/*-------------- 
+    商品详情 
+----------------*/
+
+.detail_main_right{
+    position: absolute;
+    width: 200px;
+    border: 1px solid #eee;
+    text-align: center;
+}
+.detail_main_right li{
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea;
+}
+.detail_main_right img{
+    width: 100%;
+}
+
+.detail_main_right p{
+    margin-bottom: 5px;
+    color: #666;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+.detail_main_right div{
+    font-size: 18px;
+    color: #DDBBAC;
+    font-weight: bold;
+}
+.detail_main_left{
+    margin-left: 220px;
+    border: 1px solid #eaeaea;
+}
+.detail_tab{
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-bottom: 1px solid #eaeaea;
+    background: #f8f8f8;
+}
+.detail_tab li{
+    height: 100%;
+    line-height: 39px;
+    padding: 0 30px;
+    border-right: 1px solid #eaeaea;
+}
+.detail_tab .actived_tab{
+    background: #fff;
+    height: 41px;
+    border-bottom: none;
+    border-top: 2px solid #DDBBAC;
+    color: #ddbbac;
+    font-weight: 700;
+}
+.tab_content{
+    padding: 30px;
+    min-height: 800px;
+}

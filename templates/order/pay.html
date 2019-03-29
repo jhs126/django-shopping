@@ -1,0 +1,124 @@
+{%extends 'base.html'%}
+{%block link%}
+<link rel="stylesheet" href="/static/css/swiper.min.css">
+<link rel="stylesheet" href="/static/css/pay.css">
+<!-- {% load staticfiles %} -->
+{%endblock link%}
+
+<body>
+    {%block body%}
+    <div class="pay_text">选择收货地址</div>
+
+    <div class="pay_address">
+        {%for address in address_list%}
+        <div class="pay_address_item" id="{{address.id}}" onclick="chooseAddress(&quot;{{forloop.counter0}}{{address.id}}&quot;)">
+            <div class="pay_address_border{%if address.is_default %} actived_address{%endif%}">
+                <div class="pay_name">
+                    <span>{{address.ufullname}} 收</span>
+                    <span>{%if address.is_default %} 默认地址{%endif%}</span>
+                </div>
+                <div class="pay_detail">{{address.uaddress}}</div>
+                <div class="pay_tel">{{address.utel}}</div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+    <table class="cart_list_table">
+        <tbody>
+            <tr>
+                <th>商品信息</th>
+                <th>单价(元)</th>
+                <th>数量</th>.
+                <th>小计</th>
+            </tr>
+            {%for item in goods_list%}
+            <tr class="table_tr">
+                <td width="50%">
+                    <div class="cart_goods">
+                        <img src="/static/{{item.goods.gpic}}">
+                        <div class="cart_info">
+                            <a href="">{{item.goods.gtitle}}</a>
+                            <p>白色,S码</p>
+                        </div>
+                    </div>
+                </td>
+                <td width="15%" class="col_price">{{item.goods.gdiscount_price}}</td>
+                <td width="15%">{{item.count}}</td>
+                <td width="15%" class="col_total">{% widthratio item.count 1 item.goods.gdiscount_price%}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <div class="pay_bottom">
+        <div>商品总金额：<span >￥<i class="is_total">{{price|floatformat:"2" }}</i></span></div>
+        <div>运费：<span>-￥<i class="postage">0.00</i></span></div>
+        <div>应付总金额：<span class="pay_total"></span></div>
+        <a id="go_pay">提交订单</a>
+    </div>
+    
+    <div class="popup_con">
+        <div class="popup">订单提交成功！</div>
+        <div class="mask"></div>
+    </div>
+    {%endblock body%}
+    {%block js%}
+    <script>
+$(function(){
+    total()
+})
+var address_id = $('.actived_address').parent().attr('id')
+        function chooseAddress(indx){
+            address_id = indx[1]
+            $('.pay_address_border').each(function(index,item){
+                if(indx[0] == index){
+                 item.style.border='2px solid #DDBBAC';
+                }else{
+                    item.style.border='1px solid #eee'; 
+                }
+            })
+        }
+        function total(){
+            $('.col_total').each(function(){
+               $(this).text(parseFloat($(this).text()).toFixed(2))
+            })
+          var postage = parseFloat($('.postage').text())
+           var is_total = parseFloat($('.is_total').text())
+           $('.pay_total').text('￥'+(postage+is_total).toFixed(2))
+           
+        }
+        
+$('#go_pay').click(function(){
+    data = {
+            'cid':{{cid}},
+            'price':{{price}},
+            'address_id':address_id,
+            'csrfmiddlewaretoken':'{{ csrf_token }}'
+        };
+
+        $.post('/order/push',data,function (data) {
+            if (data.ok == 1){
+                $('.popup_con').fadeIn('fast', function() {
+                    $('.popup').text('订单提交成功！')
+                    setTimeout(function(){
+                        $('.popup_con').fadeOut('fast',function(){
+                            window.location.href = '{% url "order" 1 %}';
+                        });
+                    },1000)
+                });
+            }else {
+                $('.popup_con').fadeIn('fast', function() {
+                    $('.popup').text('订单提交失败')
+                    setTimeout(function(){
+                        $('.popup_con').fadeOut('fast',function(){
+                        
+                        });
+                    },1000)
+                });
+            }
+        })
+})
+       
+    </script>
+
+    {%endblock js%}
+</body>

@@ -1,0 +1,104 @@
+body{
+    width: 90%;
+    background:linear-gradient(to right,#c2e59c,#64b3f4)
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #333;
+  }
+  .top_nav{
+      display: none;
+  }
+  input{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 15px;
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+    outline: none;
+    font-size:inherit;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  }
+
+  input:visited {
+    border-width: 1px;
+  }
+
+  .right{
+    width: 300px;
+    margin-top: 17%;
+    min-height: 350px;
+    box-shadow: rgba(0,0,0,0.2) 0 0 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    width: 100%;
+    padding: 0 30px;
+}
+.error_tip{
+    display: none;
+    font-size: 12px;
+    color: red;
+}
+/*----------- 
+    注册 
+-------------*/
+.register{
+    display: flex;
+    justify-content: space-between;
+}
+
+.register form>div{
+    height: 56px;
+    margin-bottom: 5px;
+}
+
+.register .submit{
+    font-size: large;
+    background: #98cfc4;
+    border-color:#98cfc4;
+    color: #fff;
+}
+.register .submit:hover{
+    opacity: .8;
+    cursor: pointer;
+}
+/*----------- 
+    登录 
+-------------*/
+
+.login{
+    display: flex;
+    justify-content: space-between;
+}
+.login_title{
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+}
+
+
+.login_bottom{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+.login_bottom a{
+    text-decoration: none;
+    color: #fff;
+}
+.login_bottom a:hover{
+    color:#efefef;
+}
+.layui-layer-hui{
+    background-color:rgba(148, 142, 142, 0.6) !important;
+}
+
+.submit{
+    cursor: pointer;
+}
