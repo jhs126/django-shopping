@@ -6,6 +6,7 @@ from datetime import datetime
 from decimal import Decimal
 from user.models import AddressInfo
 from cart.models import CartInfo
+from goods.models import GoodsInfo
 from .models import OrderInfo,OrderDetail
 
 @user_decorator.login
@@ -13,9 +14,13 @@ def order(request):
     cid =request.GET.get('cid')
     cids = cid.split(',')
     price =request.GET.get('price')
+    is_go =request.GET.get('is_go')
     uid = request.session['user_id']
     address_list = AddressInfo.objects.filter(auser_id = uid)
-    goods_list = CartInfo.objects.filter(id__in=cids)
+    if(is_go):
+        goods_list = GoodsInfo.objects.get(pk=cids)
+    else:
+        goods_list = CartInfo.objects.filter(id__in=cids)
     context={
         'title':'提交订单',
         'address_list':address_list,

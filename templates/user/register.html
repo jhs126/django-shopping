@@ -13,19 +13,20 @@
         <div class="right">
           <form method="post" action="/user/registerhandle/">
             {% csrf_token %}
-              <div>
+            <div class="login_title">用户注册</div>
+              <div class="register_row">
                 <input type="text"  name="user_name" placeholder="用户名" class="user_name">
                 <span class="error_tip">提示信息</span>
               </div>
-              <div>
+              <div class="register_row">
                 <input type="password"  name="pwd" placeholder="密码" class="pwd">
                 <span class="error_tip">提示信息</span>
               </div>
-              <div>
+              <div class="register_row">
                 <input type="password"  name="rpwd" placeholder="确认密码" class="rpwd">
                 <span class="error_tip">提示信息</span>
               </div>
-              <div>
+              <div class="register_row">
                 <input type="text"  name="email" placeholder="邮箱 如xxxx@126.com" class="email">
                 <span class="error_tip">提示信息</span>
               </div>

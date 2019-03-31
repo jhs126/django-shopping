@@ -12,16 +12,17 @@ $(function(){
     $('.email').blur(function(){
         email();
     })
-    var error_name = false;
-    var error_password = false;
-    var error_repeat_password = false;
-    var error_email = false;
-});
 
+});
+var error_name = false;
+var error_password = false;
+var error_repeat_password = false;
+var error_email = false;
 function userName(){ //用户名验证
     var name_val = $('.user_name').val()
     if(name_val.length<3||name_val.length>15){
         $(".user_name").next().html('请输入3-20个字符的用户名').show();
+        error_name = false;
     }else{
         $.get('/user/registerisname?uname='+name_val,function(data){
             if(data.count > 0){
@@ -72,16 +73,16 @@ function email(){//邮箱验证
 }
 
 
-$('form').submit(function(e){//如果上面验证不通过 不能提交
+
+$('form').submit(function(e){
     userName();
     pwd();
     repeatPwd();
     email();
-    if(error_nam&& error_password&& error_repeat_password&& error_email)
+    if(error_name==true&&error_password==true&&error_repeat_password==true&&error_email==true)
     {
         return true;
     }else{
         return false;
     }
-    
 })

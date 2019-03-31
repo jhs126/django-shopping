@@ -23,11 +23,11 @@
             {%for goods in page%}
             <li class="goods_bd list_bd">
                 <div class="goods_boder">
-                    <a href="/goods/{{goods.id}}"><img src="/static/{{goods.gpic}}"></a>
-                    <a href="/goods/{{goods.id}}"><p>{{goods.gtitle}}</p></a>
+                    <a href="{% url 'goodsdetail' goods.id %}"><img src="/static/{{goods.gpic}}"></a>
+                    <a href="{% url 'goodsdetail' goods.id %}"><p>{{goods.gtitle}}</p></a>
                     <div class="goods_info">
                         <div class="goods_price"><span><i>￥</i>{{goods.gdiscount_price}}</span><span>￥{{goods.goriginal_price}}</span></div>
-                        <a href="">购买</a>
+                        <a href="{% url 'goodsdetail' goods.id %}">购买</a>
                     </div>
                 </div>
             </li>

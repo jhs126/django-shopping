@@ -163,10 +163,8 @@
             alert('请选择购买商品')
         }else{
             var price = $('.total_num').text()
-            location.href='/order/pay?cid='+cart_ids+'&price='+price
+            location.href='/order/pay?cid='+cart_ids+'&price='+price+'&is_go=0'
         }
-
-
     }
     </script>
     {%endblock js%}

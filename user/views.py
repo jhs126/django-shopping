@@ -142,7 +142,7 @@ def addressDefault(request,id):  #新增或修改地址
 
 def logout(request):
     request.session.flush()  #清理缓存执行mysql
-    return redirect('/goods/list1_1_1')
+    return redirect('/')
 
 def footMark(request):
     goods_ids = request.COOKIES.get('cookies_id')

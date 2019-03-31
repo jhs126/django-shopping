@@ -5,6 +5,7 @@ from cart.models import CartInfo
 from django.core.paginator import Paginator,Page
 from django.core import serializers
 from django.views.decorators.cache import cache_page  
+from user import user_decorator
 
 import os
 
@@ -61,6 +62,7 @@ def list(request,tid,pindex,sort):  #商品分类列表
     return render(request,'goods/list.html',context)
 
 # @cache_page(60 * 15)   
+@user_decorator.login
 def detail(request,gid):  #商品详情
     type_list = TypeInfo.objects.all()[1:] 
     goods = GoodsInfo.objects.get(pk=int(gid))
