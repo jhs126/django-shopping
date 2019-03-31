@@ -14,13 +14,9 @@ def order(request):
     cid =request.GET.get('cid')
     cids = cid.split(',')
     price =request.GET.get('price')
-    is_go =request.GET.get('is_go')
     uid = request.session['user_id']
     address_list = AddressInfo.objects.filter(auser_id = uid)
-    if(is_go):
-        goods_list = GoodsInfo.objects.get(pk=cids)
-    else:
-        goods_list = CartInfo.objects.filter(id__in=cids)
+    goods_list = CartInfo.objects.filter(id__in=cids)
     context={
         'title':'提交订单',
         'address_list':address_list,

@@ -30,7 +30,7 @@
             </div>
             <div class="btn">
                 <a href="javascript:void(0);" id="add_cart" onclick="addCart({{goods.id}})">加入购物车</a>
-                <a href="javascript:void(0);"  onclick="goPay()" >立即购买</a>
+                <a href="javascript:void(0);"  onclick="addCart({{goods.id}})">立即购买</a>
             </div>
         </div>
     </div>
@@ -58,8 +58,7 @@
             </div>
         </div>
     </div>
-    <div class="add_jump"></div>
-    <div id="show_count">1</div>
+ 
     {%endblock body%}
     {%block js%}
     <script src="/static/js/swiper-3.4.2.jquery.min.js"></script>
@@ -90,35 +89,11 @@
             $(cname).removeClass('disable_num')
         }
     }
-        var $add_x = $('#add_cart').offset().top;
-		var $add_y = $('#add_cart').offset().left;
-		var $to_x = $('#show_count').offset().top;
-		var $to_y = $('#show_count').offset().left;
+      
 
-		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
-	/* 	$('#add_cart').click(function(){
-            
-            if($('.login_btn').text().indexOf('登录')>=0){
-                alert('请登录后再购买');
-                location.href='/user/login/';
-                return false;
-            }
-			$(".add_jump").stop().animate({
-				'left': $to_y+7,
-				'top': $to_x+7},
-				"fast", function() {
-					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
-					});
-            });
-        
-            count = parseInt($('.num').val());
-            $.get('/cart/add{{g.id}}_'+count+'/',function(data){
-                $('#show_count').text(data.count);
-            });
-		}) */
        
        function addCart(gid){ //加入购物车
+    
         count = parseInt($('#num').val());
         $.get('/cart/add/'+gid+'/'+count+'/',function(data){
                if(data.ok==1){
@@ -128,15 +103,7 @@
                }
             });
        }
-       function goPay(){ //去结算
-    var is_check= $(':checked').length
-        if(is_check==0){
-            alert('请选择购买商品')
-        }else{
-            var price = $('.total_num').text()
-            location.href='/order/pay?cid='+cart_ids+'&price='+price+'&is_go=1'
-        }
-    }
+ 
     </script>
     {%endblock js%}
 </body>
